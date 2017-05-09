@@ -1,0 +1,38 @@
+extend ../layout
+
+block content
+  .container
+    .jumbotron
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title 欢迎来到书籍管理系统
+        if admins && admins.length > 0
+          .panel-body 
+            h5 一般管理员列表
+            .container
+              .row
+                table.table.table-hover.table-bordered
+                  thead
+                    tr
+                      th 名字
+                      th 注册时间
+                      th 手机号码
+                      th 删除
+                  tbody
+                    each item in admins
+                      tr(class="item-id-#{item._id}")
+                        td #{item.name}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                        td #{item.phone}
+                        td
+                          button.btn.btn-danger.del(type="button", data-id="#{item._id}") 删除
+                .text-info 添加新的管理员
+                  span &nbsp;&nbsp;&nbsp;
+                  a(target="_blank", href="/root/admin/add") 添加
+        else   
+          .panel-body                 
+            .text-info 当前没有一般管理员，请添加管理员
+              span &nbsp;&nbsp;&nbsp;
+              a(target="_blank", href="/root/admin/add") 添加
+
+  script(type="text/javaScript" src="/public/js/root/root.js")

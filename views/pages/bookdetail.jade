@@ -1,0 +1,39 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-7.col-md-offset-2
+        form#updateBookForm.form-horizontal(data-role='#{role}')
+          .modal-header 书籍信息
+          .modal-body
+            input(type="hidden" name="book[createfrom]" value="#{user.name}") 
+            input(type="hidden" name="book[_id]" value="#{book._id}") 
+            .form-group
+              label.col-md-2.control-label(for="bookName") 书籍名称
+              .col-md-10
+                input#bookName.form-control(name="book[name]" type="text" value="#{book.name}") 
+            .form-group
+              label.col-md-2.control-label(for="classification") 分类
+              .col-md-10
+                input#classification.form-control(name="book[classification]" type="text" value=" #{book.classification}")
+            .form-group
+              label.col-md-2.control-label(for="location") 位置
+              .col-md-10
+                input#location.form-control(name="book[location]" type="text" value="#{book.location}") 
+            .form-group
+              label.col-md-2.control-label(for="description") 简介
+              .col-md-10
+                textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" ) #{book.description}
+          .modal-footer
+              button.btn.btn-success(type="submit") 更新
+  #msgModal.modal.fade
+    .modal-dialog
+      .modal-content 
+        #modal-panel.panel.panel-success 
+          .panel-heading 提示
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+          #message.panel-body.text-center 
+          .panel-footer.text-center
+            button.btn.btn-success(type="button" data-dismiss="modal" aria-hidden="true") 关闭
+  script(type="text/javaScript" src="/public/js/admin/updateBook.js")

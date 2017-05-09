@@ -1,0 +1,35 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-5.col-md-offset-3
+        form#signupForm.form-horizontal(data-role='#{role}')
+          .modal-header #{type}
+          .modal-body
+            input(type='hidden', name="user[role]", value="#{role}")
+            .form-group
+              label.col-md-2.control-label(for="signinName") 用户名
+              .col-md-10
+                input#signinName.form-control(name="user[name]", type="text", placeholder="Your username") 
+            .form-group
+              label.col-md-2.control-label(for="signinPassword") 密码
+              .col-md-10
+                input#signinPassword.form-control(name="user[password]", type="text", placeholder="password")
+            if  role != 'admin'    
+              .form-group
+                label.col-md-2.control-label(for="signinNickname") 昵称
+                .col-md-10
+                  input#signinNickname.form-control(name="user[nickname]", type="text", placeholder="Nickname")
+            .form-group
+              label.col-md-2.control-label(for="signinRealname") 姓名
+              .col-md-10
+                input#signinRealname.form-control(name="user[realname]", type="text", placeholder="Your name")
+            .form-group
+              label.col-md-2.control-label(for="signinPhone") Phone
+              .col-md-10
+                input#signinPhone.form-control(name="user[phone]", type="number", placeholder="Phonenumber")
+          .modal-footer
+            button.btn.btn-success(type="submit") 确认
+
+  script(type="text/javaScript" src="/public/js/signup.js")
