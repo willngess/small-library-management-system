@@ -39,14 +39,13 @@ exports.index = function(req, res){
 // root user is signin required
 exports.signinRequired = function(req, res, next){
 
-        if(req.session.user && req.session.user.role == 'root') {
-            next()
-        }else{
-            res.render('signinrequired', {
-                title: '超级管理员',
-            })
-        }
-
+    if(req.session.user && req.session.user.role == 'root') {
+        next()
+    }else{
+        res.render('signinrequired', {
+            title: '超级管理员',
+        })
+    }
 }
 
 // show addAdmin page

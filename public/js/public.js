@@ -18,7 +18,7 @@ $(document).ready(function(){
         if($('#hello').text().indexOf(helloStr) != -1) {
             return
         }
-        $('#hello').text(helloStr + $('#hello').text())
+        $('#hello').html(helloStr + $('#hello').html())
 
     }
     setTimeout(helloUser, 0)

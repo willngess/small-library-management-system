@@ -6,10 +6,12 @@
       p.navbar-text.navbar-right
         if user.nickname
           span#hello #{user.nickname}
+            a.updeteme.text-info(target="_blank" href="/user/update/#{user._id}") 修改信息
         else
           span#hello #{user.name}
+            a.updeteme.text-info(target="_blank" href="/user/update/#{user._id}") 修改信息
         span &nbsp;|&nbsp;
-        a.nav-link(href="/#{_path.substr(1)}/logout") 注销
+        a.nav-link(href="#{_path}/logout") 注销
     else
       p.navbar-text.navbar-right
         if page != 'signle'

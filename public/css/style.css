@@ -14,3 +14,53 @@ body {
 #newsList {
 	margin-top: 50px;
 }
+.container p{
+	height: 30px !important;
+	position: relative;
+}
+#hello {
+	display: inline-block;
+	height: 100%;	
+	cursor: pointer;
+}
+
+
+
+@keyframes show
+{
+0% {transform: translateY(-100%); opacity: 0;}
+100% {transform: translateY(-60%);	opacity: 1;}
+}
+
+@-moz-keyframes show 
+{
+0% {transform: translateY(-100%); opacity: 0;}
+100% {transform: translateY(-60%);	opacity: 1;}
+}
+
+@-webkit-keyframes show 
+{
+0% {transform: translateY(-100%); opacity: 0;}
+100% {transform: translateY(-60%);	opacity: 1;}
+}
+
+@-o-keyframes show
+{
+0% {transform: translateY(-100%); opacity: 0;}
+100% {transform: translateY(-60%);	opacity: 1;}
+}
+
+
+#hello:hover .updeteme {
+	display: inline;
+}
+
+.updeteme {
+	display: none;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 110%;
+	animation: show .5s linear both;
+}
+
