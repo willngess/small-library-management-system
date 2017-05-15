@@ -22,10 +22,10 @@ block content
                     each item in admins
                       tr(class="item-id-#{item._id}")
                         td #{item.name}
-                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{moment(item.meta.createAt).startOf('hour').fromNow()}  
                         td #{item.phone}
                         td
-                          button.btn.btn-danger.del(type="button", data-id="#{item._id}") 删除
+                          button.btn.btn-danger.delAdmin(type="button", data-id="#{item._id}") 删除
                 .text-info 添加新的管理员
                   span &nbsp;&nbsp;&nbsp;
                   a(target="_blank", href="/root/admin/add") 添加
@@ -34,5 +34,124 @@ block content
             .text-info 当前没有一般管理员，请添加管理员
               span &nbsp;&nbsp;&nbsp;
               a(target="_blank", href="/root/admin/add") 添加
+        //- 书籍列表 
+        if books && books.length > 0
+          .panel-body 
+            h5 书籍列表
+            .container
+              .row
+                table.table.table-hover.table-bordered
+                  thead
+                    tr
+                      th 名字
+                      th 分类
+                      th 位置
+                      th 录入时间
+                      th 录入人员
+                      th 查看
+                      th 更新
+                      th 删除
+                  tbody
+                    each item in books
+                      tr(class="item-id-#{item._id}")
+                        td #{item.name}
+                        td #{item.classification}
+                        if item.borrowinfo && item.borrowinfo.type == true 
+                          td #{item.borrowinfo.from.name}已借出，时间#{moment(item.borrowinfo.meta).format('MM/DD/YY')}
+                        else
+                          td #{item.location}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{moment(item.meta.createAt).startOf('hour').fromNow()}
+                        td #{item.createfrom}
+                        td: a(target="_blank", href="/admin/book/view/#{item._id}") 查看
+                        td: a(target="_blank", href="/admin/book/update/#{item._id}") 更新
+                        td
+                          button.btn.btn-danger.delBook(type="button", data-id="#{item._id}") 删除
+                .text-info 添加新的书籍
+                  span &nbsp;&nbsp;&nbsp;
+                  btn#addbook.btn.btn-link 添加
+        else   
+          .panel-body                 
+            .text-info 当前没有书籍，请添加书籍
+              span &nbsp;&nbsp;&nbsp;
+              btn#addbook.btn.btn-link 添加
+        //- 录入书籍表单
+        .hidden#addBookContainer
+          form#addBookForm.form-horizontal(data-role='#{role}')
+            .modal-header 新的书籍
+              button.close#closeBookForm(type="button") &times;   
+            .modal-body
+              input(type="hidden" name="book[createfrom]" value="#{user.name}")
+              .form-group
+                label.col-md-2.control-label(for="bookName") 书籍名称
+                .col-md-10
+                  input#bookName.form-control(name="book[name]" type="text" placeholder="name") 
+              .form-group
+                label.col-md-2.control-label(for="classification") 分类
+                .col-md-10
+                  input#classification.form-control(name="book[classification]" type="text" placeholder="classification")
+              .form-group
+                label.col-md-2.control-label(for="location") 位置
+                .col-md-10
+                  input#location.form-control(name="book[location]" type="text" placeholder="location")
+              .form-group
+                label.col-md-2.control-label(for="inputSummary") 简介
+                .col-md-10
+                  textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" placeholder="description")
+            .modal-footer
+              button.btn.btn-success(type="submit") 录入
+        //- 新闻列表 
+        if news && news.length > 0
+          .panel-body 
+            h5 新闻列表
+            .container
+              .row
+                table.table.table-hover.table-bordered
+                  thead
+                    tr
+                      th 标题
+                      th 时间
+                      th 内容
+                      th 删除
+                  tbody
+                    each item in news
+                      tr(class="item-id-#{item._id}")
+                        td: h5 #{item.title}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                        td: a(target="_blank", href="/news/view/#{item._id}") 查看
+                        td: button.btn.btn-danger.delNews(type="button", data-id="#{item._id}") 删除
+                .text-info 添加新的 新闻
+                  span &nbsp;&nbsp;&nbsp;
+                  btn#addnews.btn.btn-link 添加
+        else   
+          .panel-body                 
+            .text-info 当前没有新闻，请添加新闻
+              span &nbsp;&nbsp;&nbsp;
+              btn#addnews.btn.btn-link 添加
+        //- 新闻发布表单
+        .hidden#addNewsContainer 
+          form#addNewsForm.form-horizontal(data-role='#{role}')
+            .modal-header 新的新闻
+              button.close#closeNewsForm(type="button") &times;   
+            .modal-body
+              input(type="hidden" name="news[createfrom]" value="#{user.name}")
+              .form-group
+                label.col-md-2.control-label(for="newsTitle") 标题
+                .col-md-10
+                  input#newsTitle.form-control(name="news[title]" type="text" placeholder="title") 
+              .form-group
+                label.col-md-2.control-label(for="newsContent") 内容
+                .col-md-10
+                  textarea#newsContent.form-control(type="text" rows="4" name="news[content]" placeholder="news content")
+            .modal-footer
+              button.btn.btn-success(type="submit") 发布
+  //-消息提示框 
+  #msgModal.modal.fade
+    .modal-dialog(style="width:36%")
+      .modal-content 
+        #modal-panel.panel.panel-success 
+          .panel-heading 提示
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+          #message.panel-body.text-center 
 
+  script(type="text/javaScript" src="/public/js/admin/admin.js")
   script(type="text/javaScript" src="/public/js/root/root.js")

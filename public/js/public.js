@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    setInterval(function(){
+    function helloUser(){
         var time = new Date().getHours()
         var helloStr = ''
 
@@ -20,7 +20,9 @@ $(document).ready(function(){
         }
         $('#hello').text(helloStr + $('#hello').text())
 
-    },500)
+    }
+    setTimeout(helloUser, 0)
+    setInterval(helloUser,500)
 
     $('#signinForm').submit(function(e) {
         e.preventDefault()
@@ -35,7 +37,7 @@ $(document).ready(function(){
         .done(function(result){
             console.log(result)
             var data = result
-            if(!data.tag && data.success === 0){
+            if(data.tag === undefined && data.success === 0){
                 console.log('数据库查询失败')
             }else if(data.tag === 0 && data.success === 0){
                 console.log('用户不存在')

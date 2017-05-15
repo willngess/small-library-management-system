@@ -17,7 +17,7 @@ block content
                       th 名字
                       th 分类
                       th 位置
-                      th 注册时间
+                      th 录入时间
                       th 查看
                       th 更新
                       th 删除
@@ -31,8 +31,8 @@ block content
                         else
                           td #{item.location}
                         td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
-                        td: a(target="_blank", href="../admin/book/view/#{item._id}") 查看
-                        td: a(target="_blank", href="../admin/book/update/#{item._id}") 更新
+                        td: a(target="_blank", href="/book/view/#{item._id}") 查看
+                        td: a(target="_blank", href="/admin/book/update/#{item._id}") 更新
                         td
                           button.btn.btn-danger.del(type="button", data-id="#{item._id}") 删除
                 .text-info 添加新的书籍
@@ -43,9 +43,10 @@ block content
             .text-info 当前没有书籍，请添加书籍
               span &nbsp;&nbsp;&nbsp;
               btn#addbook.btn.btn-link 添加
-        .hidden     
+        .hidden#addBookContainer
           form#addBookForm.form-horizontal(data-role='#{role}')
             .modal-header 新的书籍
+              button.close#closeBookForm(type="button") &times;     
             .modal-body
               input(type="hidden" name="book[createfrom]" value="#{user.name}")
               .form-group
@@ -61,19 +62,18 @@ block content
                 .col-md-10
                   input#location.form-control(name="book[location]" type="text" placeholder="location")
               .form-group
-                label.col-md-2.control-label(for="description") 简介
+                label.col-md-2.control-label(for="inputSummary") 简介
                 .col-md-10
                   textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" placeholder="description")
             .modal-footer
               button.btn.btn-success(type="submit") 录入
+          
   #msgModal.modal.fade
-    .modal-dialog
+    .modal-dialog(style="width:36%")
       .modal-content 
         #modal-panel.panel.panel-success 
           .panel-heading 提示
-            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+            button.close#closeBookForm(type="button" data-dismiss="modal" aria-hidden="true") &times;
           #message.panel-body.text-center 
-          .panel-footer.text-center
-            button.btn.btn-success(type="button" data-dismiss="modal" aria-hidden="true") 关闭
 
   script(type="text/javaScript" src="/public/js/admin/admin.js")

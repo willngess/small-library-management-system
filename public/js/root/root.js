@@ -1,5 +1,5 @@
 $(function(){
-    $('.del').click(function(e){
+    $('.delAdmin').click(function(e){
         var target = $(this)
         var id = target.data('id')
         var tr = $('.item-id-' + id)
@@ -30,5 +30,49 @@ $(function(){
             }
 
         })
+    })
+
+
+    $('#addnews').click(function() {
+        $('#addNewsContainer').removeClass('hidden').addClass('show')
+
+        $('#closeNewsForm').click(function() {
+            $('#addNewsContainer').removeClass('show').addClass('hidden')
+        })
+
+
+        $('#addNewsForm').on('submit', function(e){
+            e.preventDefault()
+
+            $.ajax({
+                type: 'POST',
+                url: '/root/news/save',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize()
+            }).done(function(result) {
+                console.log(result)
+                if(result.tag === 0 && result.success === 1) {
+                    $('#msgModal').on('show.bs.modal',  function() {
+                        $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
+                        $('#message').text('发布成功')
+                        $(this).off('show.bs.modal')
+                    })
+                    $('#msgModal').on('hidden.bs.modal',function(){
+                        location.reload()
+                    })
+                }else if(result.tag === 1 && result.success === 0){
+                    $('#msgModal').on('show.bs.modal',  function() {
+                        $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
+                        $('#message').text('该标题已存在，请修改后再录入')
+                        $(this).off('show.bs.modal')
+                    })
+                }
+                $('#msgModal').modal({
+                    keyboard: true
+                })
+                $(this).off('submit')
+            })
+        })
+
     })
 })

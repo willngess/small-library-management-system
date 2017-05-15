@@ -4,6 +4,7 @@ var User = require('./routecontroller/user')
 var Index = require('./routecontroller/index')
 var Admin = require('./routecontroller/admin')
 var Root = require('./routecontroller/root')
+var Comment = require('./routecontroller/comment')
 
 
 
@@ -18,23 +19,23 @@ module.exports = function(app) {
             _user = {
                 name: req.session.user.name,
                 nickname: req.session.user.nickname,
-                role: req.session.user.role
+                role: req.session.user.role,
+                _id: req.session.user._id
             }
         }
+        
         app.locals.user = _user
         next()
     })
     app.use(function(req, res, next) {
 
         var url = req.originalUrl
-        var path = ''
-        if(url != '/') {
-            path = url.split('/')[1]
-        }else{
-            path = 'user'
+        var _path = url.split('/')[1]
+        if(!(_path == 'root' || _path == 'admin')){
+            _path = 'user'
         }
 
-        app.locals.path = path
+        app.locals._path = '/' + _path
 
         next()
     })
@@ -44,6 +45,19 @@ module.exports = function(app) {
 
     // GET Index Pages
     app.get('/', Index.index)
+    app.get('/user/signup', User.showSignup)
+    app.post('/user/signup', User.signup)
+    app.post('/book/search', Index.searchBooks)
+    app.get('/book/view/:id', Index.showBook)
+    app.get('/news/list', Index.newsList)
+    app.get('/user/signup', User.showSignup)
+    app.post('/user/signup', User.signup)
+    app.post('/user/signin', User.signin)
+    app.get('/user/logout', User.logout)
+    app.post('/book/comment', Index.signinRequired, Comment.save)
+    app.post('/book/borrow', Index.borrow)
+    app.get('/book/borrow/list/:id', Index.signinRequired, Index.showBorrowList)
+    app.post('/book/info', Index.signinRequired, Index.bookInfo)
 
 
     // GET Root Pages
@@ -61,13 +75,18 @@ module.exports = function(app) {
     app.post('/root/admin/add', Root.signinRequired, User.signup)
     app.delete('/root/admin/del:id', Root.signinRequired, User.del)
 
+    app.get('/news/view/:id', Root.showNews)
+    app.post('/root/news/save', Root.signinRequired, Root.saveNews)
+
 
     // GET Admin Pages
     app.get('/admin', Admin.signinRequired, Admin.index)
     app.post('/admin/signin', User.signin)
     app.get('/admin/logout', Admin.signinRequired, User.logout)
-    app.post('/admin/book/save', Admin.signinRequired, Admin.saveBook)
-    app.delete('/admin/book', Admin.signinRequired, Admin.delBook)
-    app.get('/admin/book/update/:id', Admin.signinRequired, Admin.showUpdataBook)
-    app.post('/admin/book/update', Admin.signinRequired, Admin.updateBook)
+    
+    app.delete('/admin/book', User.adminSigninRequired, Admin.delBook)
+    app.post('/admin/book/save', User.adminSigninRequired, Admin.saveBook)
+    app.get('/admin/book/update/:id', User.adminSigninRequired, Admin.showUpdateBook)
+    app.post('/admin/book/update', User.adminSigninRequired, Admin.updateBook)
+
 }

@@ -10,3 +10,7 @@ body {
 .color-green{
 	color: green;
 }
+
+#newsList {
+	margin-top: 50px;
+}

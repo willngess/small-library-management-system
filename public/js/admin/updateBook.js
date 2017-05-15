@@ -1,6 +1,10 @@
-$(function(){
+$(document).ready(function(){
+
+
     $('#updateBookForm').on('submit', function(e){
         e.preventDefault()
+
+        console.log('sdfasdj')
 
         $.ajax({
             type: 'POST',
@@ -14,9 +18,6 @@ $(function(){
                     $('#message').text('更新成功')
                     $(this).off('show.bs.modal')
                 })
-                // $('#msgModal').on('hidden.bs.modal',function(){
-                //     location.reload()
-                // })
             }else if(result && result.success === 0){
                 $('#msgModal').on('show.bs.modal',  function() {
                     $('#modal-panel').removeClass('panel-success').addClass('panel-danger')

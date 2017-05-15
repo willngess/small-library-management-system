@@ -29,7 +29,6 @@ exports.signin = function(req, res) {
     var name = _user.name
 
     User.findOne({name: name}, function(err, user){
-        // console.log(user)
 
         if(err){
             console.log('err in find: ' + err)
@@ -57,7 +56,8 @@ exports.signin = function(req, res) {
                     req.session.user = {
                         name: user.name,
                         nickname: user.nickname,
-                        role: user.role
+                        role: user.role,
+                        _id: user._id
                     }
                     return res.json({
                             tag: 1,
@@ -77,16 +77,19 @@ exports.signin = function(req, res) {
 //  get to  logout
 exports.logout = function(req, res) {
 
-    var path = req.session.user.role
+    // var path = req.session.user.role
     delete req.session.user
 
-    res.redirect('/' + path)
+    res.redirect('/')
 }
 
 // get signup page
 exports.showSignup = function(req, res) {
 
     var role = req.path.split('/')[1]
+    if(!(role == 'admin' || role == 'root')){
+        role = 'normal'
+    }
     var title = ''
 
     switch(role){
@@ -175,7 +178,36 @@ exports.signup = function(req, res) {
         })
     }else if(role == 'normal') {
 
+        User.findOne({name: _user.name}, function(err, normalUser) {
 
+            if(err){
+                res.json({
+                    success:0
+                })
+                return console.log('err in find:' + err)
+            }
+            if(normalUser){
+                return res.json({
+                            tag: 1,
+                            success: 0
+                        })
+            }else{
+
+                var _normalUser = new User(_user)
+                _normalUser.save(function(err, normalUser) {
+                    if(err){
+                        res.json({
+                            success:0
+                        })
+                        return console.log('err in save:' + err)
+                    }
+                    return res.json({
+                            tag: 0,
+                            success: 1
+                        })
+                })
+            }
+        })
     }
 }
 
@@ -228,4 +260,15 @@ exports.del = function(req, res){
             success: 1
         })
     })
+}
+
+exports.adminSigninRequired = function(req, res, next) {
+
+    if(req.session.user && (req.session.user.role == 'admin' || req.session.user.role == 'root')) {
+            next()
+    }else {
+        res.render('signinrequired', {
+            title: '管理员',
+        })
+    }
 }

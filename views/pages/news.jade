@@ -1,0 +1,11 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-7.col-md-offset-1
+        h2.text-center #{news.title}
+        .text-center 发布时间：#{moment(news.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+    .row    
+      .col-md-7.col-md-offset-1
+        p.newsContent #{news.content}

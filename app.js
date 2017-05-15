@@ -2,7 +2,6 @@ var express = require('express')
 var path = require('path')
 var favicon = require('serve-favicon')
 var logger = require('morgan')
-var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var cookiesession = require('cookie-session')
 var moment = require('moment')
@@ -24,15 +23,16 @@ var app = express()
 // view engine setup
 // app.set('views', path.join(__dirname, 'views/pages'));
 app.set('views', './views/pages')
-app.set('view engine', 'jade');
+app.set('view engine', 'jade')
 app.locals.moment = moment
+app.locals.pretty = true
+mongoose.set('debug', true)
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cookieParser())
 app.use(cookiesession({                           //cokie-session 已经对cookie和session本地持久化做了处理
     name: 'session',
     keys: ['key0','key1'],

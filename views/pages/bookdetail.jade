@@ -3,37 +3,91 @@ extend ../layout
 block content
   .container
     .row
-      .col-md-7.col-md-offset-2
-        form#updateBookForm.form-horizontal(data-role='#{role}')
-          .modal-header 书籍信息
-          .modal-body
-            input(type="hidden" name="book[createfrom]" value="#{user.name}") 
-            input(type="hidden" name="book[_id]" value="#{book._id}") 
-            .form-group
-              label.col-md-2.control-label(for="bookName") 书籍名称
-              .col-md-10
-                input#bookName.form-control(name="book[name]" type="text" value="#{book.name}") 
-            .form-group
-              label.col-md-2.control-label(for="classification") 分类
-              .col-md-10
-                input#classification.form-control(name="book[classification]" type="text" value=" #{book.classification}")
-            .form-group
-              label.col-md-2.control-label(for="location") 位置
-              .col-md-10
-                input#location.form-control(name="book[location]" type="text" value="#{book.location}") 
-            .form-group
-              label.col-md-2.control-label(for="description") 简介
-              .col-md-10
-                textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" ) #{book.description}
-          .modal-footer
-              button.btn.btn-success(type="submit") 更新
-  #msgModal.modal.fade
-    .modal-dialog
-      .modal-content 
-        #modal-panel.panel.panel-success 
-          .panel-heading 提示
-            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
-          #message.panel-body.text-center 
-          .panel-footer.text-center
-            button.btn.btn-success(type="button" data-dismiss="modal" aria-hidden="true") 关闭
-  script(type="text/javaScript" src="/public/js/admin/updateBook.js")
+      .col-md-10.col-md-offset-1
+        .panel.panel-default
+          .panel-heading 
+            .panel-title 书籍信息
+          .panel-body  
+            form#updateBookForm.form-horizontal
+              input(type="hidden" name="book[createfrom]") 
+              input(type="hidden" name="book[_id]" value="#{book._id}") 
+              .form-group
+                label.col-md-2.control-label(for="bookName") 书籍名称
+                .col-md-10
+                  input#bookName.form-control(name="book[name]" type="text" value="#{book.name}" disabled) 
+              .form-group
+                label.col-md-2.control-label(for="classification") 分类
+                .col-md-10
+                  input#classification.form-control(name="book[classification]" type="text" value="#{book.classification}" disabled)
+              .form-group
+                label.col-md-2.control-label(for="location") 位置
+                .col-md-10
+                  input#location.form-control(name="book[location]" type="text" value="#{book.location}" disabled) 
+              .form-group
+                label.col-md-2.control-label(for="description") 简介
+                .col-md-10
+                  textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" disabled) #{book.description}
+
+            //- 评论区
+          .panel-body
+            .panel-heading
+            h3 评论区
+          .panel-body
+            ul.media-list
+              each item in comments
+                li.media
+                  .pull-left
+                    a.comment(href="#comments" data-name="#{item.from.name}" data-cid="#{item._id}" data-tid="#{item.from._id}")
+                      img.media-object(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+", style="width: 64px; height: 64px;")
+                  .media-body
+                    h4.media-heading #{item.from.name}
+                    p #{item.content}
+                    if item.reply && item.reply.length > 0
+                      each reply in item.reply
+                        .media
+                          .pull-left
+                            a.comment(href="#comments" data-name="#{reply.from.name }" data-cid="#{item._id}" data-tid="#{reply.from._id}")
+                              img.media-object(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+", style="width: 64px; height: 64px;")
+                          .media-body
+                            h4.media-heading
+                              | #{reply.from.name}
+                              span.text-info &nbsp;回复&nbsp;
+                              | #{reply.to.name}:
+                            p #{reply.content}
+                  hr
+            //- new comment tmpl
+            script#newCommentTmpl(type="text/x-jquery-tmpl")
+              li.media
+                  .pull-left
+                    a.comment(href="#comments" data-name="${name}" data-cid="${comment_id}" data-tid="${user_id}")
+                      img.media-object(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+", style="width: 64px; height: 64px;")
+                  .media-body
+                    h4.media-heading ${name}
+                    p ${content}
+                  hr
+            //- replay comment tmpl
+            script#replayCommentTmpl(type="text/x-jquery-tmpl")
+              .media
+                .pull-left
+                  a.comment(href="#comments" data-name="${name }" data-cid="${comment_id}" data-tid="${user_id}")
+                    img.media-object(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+", style="width: 64px; height: 64px;")
+                .media-body
+                  h4.media-heading
+                    | ${name}
+                    span.text-info &nbsp;回复&nbsp;
+                    | ${toName}:
+                  p ${content}
+
+            #comments
+              form#commentForm(method="POST", action="/book/comment")
+                input(type="hidden" name="comment[book]" value="#{book._id}")
+                if user
+                  input(type="hidden" name="comment[from]" value="#{user._id}")
+                .form-group
+                  textarea.form-control(name="comment[content]" row="3")
+                if user
+                  button.btn.btn-primary(type='submit' style="float: right;") 评论
+                else
+                  a.navbar-link.navbar-right(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论
+
+  script(type="text/javaScript" src="/public/js/index/detail.js")

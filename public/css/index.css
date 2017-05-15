@@ -1,0 +1,34 @@
+#tableContainer {
+	padding-top: 10px;
+}
+.newsContent {
+	margin-top: 20px;
+	font-size: 18px;
+	line-height: 1.5em;
+}
+#newsText {
+	padding-bottom: 15px;
+}
+
+td{
+	vertical-align: middle !important;
+}
+
+.footer{
+	width: 100%;
+	height: 120px;
+	margin-top: -50px;
+	background-color: #f8f8f8;
+	border-top:1px solid #e7e7e7;
+}
+
+.footer ul{
+	margin-top: 20px;
+	list-style-type: none;
+	padding: 10px;
+}
+
+.footer ul li {
+	float: left;
+	padding-left: 20px;
+}

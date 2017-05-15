@@ -1,6 +1,10 @@
 $(function(){
     $('#addbook').click(function(){
-        $('.hidden').removeClass('hidden').addClass('show')
+        $('#addBookContainer').removeClass('hidden').addClass('show')
+
+        $('#closeBookForm').click(function(e) {
+            $('#addBookContainer').removeClass('show').addClass('hidden')
+        })
 
         $('#addBookForm').on('submit', function(e){
             e.preventDefault()
@@ -37,7 +41,7 @@ $(function(){
         })
     })
 
-    $('.del').click(function(e) {
+    $('.delBook').click(function(e) {
 
         var target = $(this)
         var id = target.data('id')

@@ -1,0 +1,12 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-7.col-md-offset-2
+        ul#newsList.list-group
+          if news && news.length > 0
+            each item in news
+              li.list-group-item #{item.title}
+                a.pull-right(target="_blank", href="/news/view/#{item._id}") 查看
+                span.pull-right #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}&nbsp;&nbsp;&nbsp;&nbsp;

@@ -1,5 +1,105 @@
-extends ../layout
+doctype
+html
+  head
+    meta(charset='utf-8')
+    title #{title}
+    link(href="/public/bootstrap/css/bootstrap.min.css", rel="stylesheet")
+    link(href="/public/css/style.css", rel="stylesheet")
+    link(href="/public/css/index.css", rel="stylesheet")
+    script(src="/public/jquery/jquery.min.js", type="text/javaScript")
+    script(src="/public/bootstrap/js/bootstrap.min.js", type="text/javaScript")
+    script(src="/public/js/public.js", type="text/javaScript")
+    script(src="/public/js/index/index.js", type="text/javaScript")
+  body
+    include ../includes/header
+    .container
+      .jumbotron
+        .panel.panel-default
+          .panel-heading 
+            h4.panel-title 欢迎来到书籍管理系统
+          .panel-body 
+            if user
+              form#searchClfica.form-inline(data-userid="#{user._id}")
+            else
+              form#searchClfica.form-inline
+                .form-group
+                  label(for="classification") 分类&nbsp;&nbsp;&nbsp;&nbsp;
+                  input#classification.form-control(type="text" name="search[classification]" value="js")
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                button.btn.btn-muted.active(type="submit" ) 搜索
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                if user
+                  a(target="_blank", href="/book/borrow/list/#{user._id}")  查看我的书籍
+            if books && books.length > 0
+              #tableContainer.container
+                .row
+                  table.table.table-hover.table-bordered()
+                    thead
+                      tr
+                        th 名字
+                        th 分类
+                        th 位置
+                        th 录入时间
+                        th 查看
+                        th 借出
+                    tbody#booksTbody
+                      each item in books
+                        tr
+                          td #{item.name}
+                          td #{item.classification}
+                          if item.borrowinfo && item.borrowinfo.info == true 
+                            td 已借出，时间:#{moment(item.borrowinfo.meta).format('MM/DD/YY')}
+                          else
+                            td #{item.location}
+                          td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                          td: a(target="_blank"  href="/book/view/#{item._id}") 查看
+                          td
+                            if !user
+                              button.borrow.btn.btn-default.btn-info.btn-sm(disabled) 借阅
+                            else if item.borrowinfo && item.borrowinfo.info == true
+                              button.borrow.btn.btn-default.btn-info.btn-sm(data-bookid="#{item._id}" data-tid="#{user._id}" disabled) 借阅
+                            else
+                              button.borrow.btn.btn-default.btn-info.btn-sm.active(data-bookid="#{item._id}" data-tid="#{user._id}") 借阅
+          .panel-body
+            #newsText.text-default 最新新闻
+              span &nbsp;&nbsp;&nbsp;
+              a(target="_blank", href="/news/list") 查看更多
+            .panel.panel-default
+              .panel-body
+                h2.text-center #{news.title}
+                .text-center 发布时间：#{moment(news.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                p.newsContent.text-default #{news.content}
 
-block content
-  h1= title
-  p Welcome to #{title}
+    //-消息提示框 
+    #msgModal.modal.fade
+      .modal-dialog(style="width:36%")
+        .modal-content 
+          #modal-panel.panel.panel-success 
+            .panel-heading 提示
+              button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+            #message.panel-body.text-center             
+    //- footer
+    .footer
+      .container
+        ul
+          li.text-muted 本站用到的技术栈：
+          li
+            a(target="_blank" href="http://nodejs.cn/") NodeJs
+          li
+            a(target="_blank" href="http://www.expressjs.com.cn/") Express
+          li
+            a(target="_blank" href="http://www.nodeclass.com/api/mongoose.html") Mongoose
+          li
+            a(target="_blank" href="http://momentjs.cn/") Moment.js
+          li
+            a(target="_blank" href="https://github.com/expressjs/body-parser") body-parser
+          li
+            a(target="_blank" href="https://github.com/expressjs/cookie-session") cookie-session
+          li
+            a(target="_blank" href="http://www.css88.com/doc/underscore/") underscore
+        ul
+          li.text-muted 管理员入口
+          li
+            a(target="_blank" href="/admin/") 一般管理员
+          li
+            a(target="_blank" href="/root/") 超级管理员

@@ -15,10 +15,7 @@ var BookSchema = new Schema({
     location:String,
     // 借出还入记录
     borrowinfo: {
-        from: {
-            type: ObjectId,
-            ref: 'User'
-        },
+        from: String,
         // 是否借出
         info: {
             type: Boolean,

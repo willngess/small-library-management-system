@@ -1,0 +1,48 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-10
+        #tableContainer(style="padding-top: 30px;")
+          if books && books.length > 0
+            .container
+              .row
+                table.table.table-hover.table-bordered
+                  thead
+                    tr
+                      th 名字
+                      th 分类
+                      th 位置
+                      th 录入时间
+                      th 查看
+                      th 还书
+                  tbody#booksTbody
+                    each item in books
+                      tr(class="item-id-#{item._id}")
+                        td #{item.name}
+                        td #{item.classification}
+                        td #{item.location}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                        td: a(target="_blank"  href="/book/view/#{item._id}") 查看
+                        td
+                          button.info.btn.btn-default.btn-info.btn-sm.active(data-bookid="#{item._id}" data-tid="#{user._id}") 还书
+          else
+            .panel.panel-info
+              .panel-heading 
+                h5 #{user.name} 你好！
+              .panel-body
+                .text.text-muted 你还没有借书哦！返回&nbsp;
+                  a.text-info(target="_blank" href='/') 首页&nbsp;
+                  看看对那些书籍感兴趣吧！    
+
+      //-消息提示框 
+    #msgModal.modal.fade
+      .modal-dialog(style="width:36%")
+        .modal-content 
+          #modal-panel.panel.panel-success 
+            .panel-heading 提示
+              button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+            #message.panel-body.text-center 
+
+  script(type="text/javaScript" src="/public/js/index/borrowInfo.js")

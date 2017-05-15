@@ -10,7 +10,6 @@ $('#signupForm').submit(function(e){
         default: ajaxUrl = '/user/signup'
     }
 
-    console.log(ajaxUrl)
 
     $.ajax({
         type: 'POST',
@@ -26,16 +25,9 @@ $('#signupForm').submit(function(e){
             console.log('该用户已存在')
         }else if(data.tag === 0 && data.success === 1){
             console.log('注册成功')
-            signupSuccess(role)
+            location.href = document.referrer
         }       
     })
 })
 
 
-function signupSuccess(role) {
-    if(role != 'admin'){
-        location.href = '/' + role
-    }else {
-        location.href = document.referrer
-    }
-}
