@@ -135,7 +135,7 @@ exports.borrow = function(req, res) {
 
     var tid = req.body.tid
 
-    if(!(req.session.user.role == 'root' || req.session.user.role == 'admin' || req.session.user.role == 'normal')) {
+    if(!(req.session.user.role == 'normal')) {
         res.json({
             isSignin: false,
             success: 0,

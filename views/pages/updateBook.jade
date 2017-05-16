@@ -4,12 +4,12 @@ block content
   .container
     .row
       .col-md-10.col-md-offset-1
-        .panel.panel-default
+        .panel.panel-default(style="margin-top: 20px;")
           .panel-heading 
             .panel-title 书籍信息
           .panel-body  
             form#updateBookForm.form-horizontal(data-role='#{role}')
-              input(type="hidden" name="book[createfrom]") 
+              input(type="hidden" name="book[createfrom]" value="#{user.name}") 
               input(type="hidden" name="book[_id]" value="#{book._id}") 
               .form-group
                 label.col-md-2.control-label(for="bookName") 书籍名称

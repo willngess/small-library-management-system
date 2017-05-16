@@ -223,8 +223,7 @@ exports.checkout = function(req, res) {
         }
         console.log(user)
         if(user){
-
-            if(user.role == role || (user.role == 'admin' && role == 'root')){
+            if(role == 'root'){
                 return res.json({
                     tag:1,
                     success: 1,
@@ -271,4 +270,21 @@ exports.adminSigninRequired = function(req, res, next) {
             title: '管理员',
         })
     }
+}
+
+// show user list page
+exports.showUserList = function(req, res) {
+
+
+    User.find({role: 'normal'}, function(err, users) {
+        if(err) {
+            return console.log('err in find user: ' + err)
+        }
+
+        res.render('userList', {
+            title: '会员列表',
+            users: users
+        })    
+        
+    })
 }

@@ -11,10 +11,25 @@ body {
 	color: green;
 }
 
+td{
+	vertical-align: middle !important;
+}
+
+textarea {
+	 text-indent: 2em;
+	 max-width: 100%;
+	 min-width: 100%;
+}
+
 #newsList {
 	margin-top: 50px;
 }
-.container p{
+
+.newsContent {
+	text-indent: 2em;
+}
+
+.container #namecontainer{
 	height: 30px !important;
 	position: relative;
 }

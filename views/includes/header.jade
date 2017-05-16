@@ -3,7 +3,7 @@
     .navbar-header
       a.navbar-brand(href="/") 图书管理系统
     if user
-      p.navbar-text.navbar-right
+      p#namecontainer.navbar-text.navbar-right
         if user.nickname
           span#hello #{user.nickname}
             a.updeteme.text-info(target="_blank" href="/user/update/#{user._id}") 修改信息

@@ -5,6 +5,7 @@ var _ = require('underscore')
 exports.index = function(req, res) {
 
     var adminName = req.session.user.name
+    
     Book
     .find({createfrom: adminName})
     .exec(function(err, books) {

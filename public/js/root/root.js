@@ -21,7 +21,7 @@ $(function(){
                     url: '/root/admin/del?id=' + id
                 }).done(function(result){
                     if(result.success === 1){
-                        tr.children()[2].innerHTML = '删除成功'
+                        tr.children()[3].innerHTML = '删除成功'
                         setTimeout(function(){
                             tr.remove()
                         }, 500)
@@ -73,6 +73,44 @@ $(function(){
                 $(this).off('submit')
             })
         })
-
     })
+
+
+    $('.delNews').click(function(e){
+        var target = $(this)
+        var id = target.data('id')
+        var tr = $('.item-id-' + id)
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/root/news/del',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                _id: id
+            })
+        }).done(function(result){
+
+            if(result.success === 1){
+                $('#msgModal').on('show.bs.modal',  function() {
+                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
+                    $('#message').text('删除成功！')
+                    $(this).off('show.bs.modal')
+                })
+                $('#msgModal').on('hidden.bs.modal',function(){
+                    tr.remove()
+                    $(this).off('hidden.bs.modal')
+                })
+            }else {
+                $('#msgModal').on('show.bs.modal',  function() {
+                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
+                    $('#message').text('删除失败， 请刷新后重试！')
+                    $(this).off('show.bs.modal')
+                })
+            }
+            $('#msgModal').modal({
+                keyboard: true
+            })
+        })
+    })
+
 })

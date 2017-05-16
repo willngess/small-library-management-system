@@ -69,7 +69,7 @@ exports.showNews = function(req, res) {
         }
 
         res.render('news', {
-            title: '新闻',
+            title: news.title,
             news: news,            
             role: 'news'
         })
@@ -112,3 +112,16 @@ exports.saveNews = function(req, res) {
     })
 }
 
+exports.delNews = function(req, res) {
+
+    var _id = req.body._id
+
+    News.remove({_id: _id}, function(err, news) {
+        if(err){
+            return console.log("err in del news: " + err)
+        }
+        return res.json({
+            success: 1
+        })
+    })
+}

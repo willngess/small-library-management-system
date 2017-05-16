@@ -23,6 +23,8 @@ module.exports = function(app) {
                 _id: req.session.user._id
             }
         }
+
+        console.log(_user)
         
         app.locals.user = _user
         next()
@@ -47,13 +49,15 @@ module.exports = function(app) {
     app.get('/', Index.index)
     app.get('/user/signup', User.showSignup)
     app.post('/user/signup', User.signup)
-    app.post('/book/search', Index.searchBooks)
-    app.get('/book/view/:id', Index.showBook)
-    app.get('/news/list', Index.newsList)
     app.get('/user/signup', User.showSignup)
     app.post('/user/signup', User.signup)
     app.post('/user/signin', User.signin)
     app.get('/user/logout', User.logout)
+    
+    app.get('/news/list', Index.newsList)
+    
+    app.post('/book/search', Index.searchBooks)
+    app.get('/book/view/:id', Index.showBook)
     app.post('/book/comment', Index.signinRequired, Comment.save)
     app.post('/book/borrow', Index.borrow)
     app.get('/book/borrow/list/:id', Index.signinRequired, Index.showBorrowList)
@@ -73,10 +77,14 @@ module.exports = function(app) {
     app.get('/root/admin/add', Root.signinRequired, Root.addAdmin)
     app.post('/root/admin/checkout', Root.signinRequired, User.checkout)
     app.post('/root/admin/add', Root.signinRequired, User.signup)
-    app.delete('/root/admin/del:id', Root.signinRequired, User.del)
+    app.delete('/root/admin/del', Root.signinRequired, User.del)
 
     app.get('/news/view/:id', Root.showNews)
     app.post('/root/news/save', Root.signinRequired, Root.saveNews)
+    app.delete('/root/news/del', Root.signinRequired, Root.delNews)
+
+    app.get('/root/user/list', User.adminSigninRequired, User.showUserList)
+    app.get('/root/user/list', Root.signinRequired, User.del)
 
 
     // GET Admin Pages

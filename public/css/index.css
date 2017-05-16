@@ -2,7 +2,7 @@
 	padding-top: 10px;
 }
 .newsContent {
-	margin-top: 20px;
+	margin-top: 10px;
 	font-size: 18px;
 	line-height: 1.5em;
 }
@@ -10,9 +10,7 @@
 	padding-bottom: 15px;
 }
 
-td{
-	vertical-align: middle !important;
-}
+
 
 .footer{
 	width: 100%;

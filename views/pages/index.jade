@@ -20,6 +20,13 @@ html
           .panel-body 
             if user
               form#searchClfica.form-inline(data-userid="#{user._id}")
+                .form-group
+                  label(for="classification") 分类&nbsp;&nbsp;&nbsp;&nbsp;
+                  input#classification.form-control(type="text" name="search[classification]" value="js")
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                button.btn.btn-muted.active(type="submit" ) 搜索
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                a(target="_blank", href="/book/borrow/list/#{user._id}")  查看我的书籍
             else
               form#searchClfica.form-inline
                 .form-group
@@ -27,9 +34,6 @@ html
                   input#classification.form-control(type="text" name="search[classification]" value="js")
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 button.btn.btn-muted.active(type="submit" ) 搜索
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                if user
-                  a(target="_blank", href="/book/borrow/list/#{user._id}")  查看我的书籍
             if books && books.length > 0
               #tableContainer.container
                 .row

@@ -9,9 +9,11 @@ $(document).ready(function(){
             helloStr = '早上好'
         }else if(time > 9 && time <= 14){
             helloStr = '中午好'
-        }else if(time > 14 && time <= 19){
+        }else if(time > 14 && time <= 18){
             helloStr = '下午好'
-        }else{
+        }else if(time > 0 && time <= 6){
+            helloStr = '新的一天'
+        }else {
             helloStr = '晚上好'
         }
 

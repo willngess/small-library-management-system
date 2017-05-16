@@ -14,8 +14,9 @@ block content
                 table.table.table-hover.table-bordered
                   thead
                     tr
-                      th 名字
+                      th 用户名
                       th 注册时间
+                      th 姓名
                       th 手机号码
                       th 删除
                   tbody
@@ -23,12 +24,13 @@ block content
                       tr(class="item-id-#{item._id}")
                         td #{item.name}
                         td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{moment(item.meta.createAt).startOf('hour').fromNow()}  
+                        td #{item.realname}
                         td #{item.phone}
                         td
                           button.btn.btn-danger.delAdmin(type="button", data-id="#{item._id}") 删除
-                .text-info 添加新的管理员
+                .text-info 注册新的管理员
                   span &nbsp;&nbsp;&nbsp;
-                  a(target="_blank", href="/root/admin/add") 添加
+                  a(target="_blank", href="/root/admin/add") 注册
         else   
           .panel-body                 
             .text-info 当前没有一般管理员，请添加管理员
@@ -62,18 +64,18 @@ block content
                           td #{item.location}
                         td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{moment(item.meta.createAt).startOf('hour').fromNow()}
                         td #{item.createfrom}
-                        td: a(target="_blank", href="/admin/book/view/#{item._id}") 查看
+                        td: a(target="_blank", href="/book/view/#{item._id}") 查看
                         td: a(target="_blank", href="/admin/book/update/#{item._id}") 更新
                         td
                           button.btn.btn-danger.delBook(type="button", data-id="#{item._id}") 删除
                 .text-info 添加新的书籍
                   span &nbsp;&nbsp;&nbsp;
-                  btn#addbook.btn.btn-link 添加
+                  a#addbook.btn.btn-link 添加
         else   
           .panel-body                 
             .text-info 当前没有书籍，请添加书籍
               span &nbsp;&nbsp;&nbsp;
-              btn#addbook.btn.btn-link 添加
+              a#addbook.btn.btn-link 添加
         //- 录入书籍表单
         .hidden#addBookContainer
           form#addBookForm.form-horizontal(data-role='#{role}')
@@ -116,17 +118,17 @@ block content
                     each item in news
                       tr(class="item-id-#{item._id}")
                         td: h5 #{item.title}
-                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}
+                        td #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{moment(item.meta.createAt).startOf('hour').fromNow()}
                         td: a(target="_blank", href="/news/view/#{item._id}") 查看
                         td: button.btn.btn-danger.delNews(type="button", data-id="#{item._id}") 删除
                 .text-info 添加新的 新闻
                   span &nbsp;&nbsp;&nbsp;
-                  btn#addnews.btn.btn-link 添加
+                  a#addnews.btn.btn-link 添加
         else   
           .panel-body                 
             .text-info 当前没有新闻，请添加新闻
               span &nbsp;&nbsp;&nbsp;
-              btn#addnews.btn.btn-link 添加
+              a#addnews.btn.btn-link 添加
         //- 新闻发布表单
         .hidden#addNewsContainer 
           form#addNewsForm.form-horizontal(data-role='#{role}')
@@ -144,6 +146,10 @@ block content
                   textarea#newsContent.form-control(type="text" rows="4" name="news[content]" placeholder="news content")
             .modal-footer
               button.btn.btn-success(type="submit") 发布
+        .panel-body      
+          .text-info 查看用户列表
+            span &nbsp;&nbsp;&nbsp;
+            a#addnews.btn.btn-link(target="_blank" href="/root/user/list") 查看
   //-消息提示框 
   #msgModal.modal.fade
     .modal-dialog(style="width:36%")

@@ -40,7 +40,7 @@ block content
                   btn#addbook.btn.btn-link 添加
         else   
           .panel-body                 
-            .text-info 当前没有书籍，请添加书籍
+            .text-info 当前没有您录入的书籍，请添加书籍
               span &nbsp;&nbsp;&nbsp;
               btn#addbook.btn.btn-link 添加
         .hidden#addBookContainer
@@ -67,6 +67,10 @@ block content
                   textarea#inputSummary.form-control(type="text" rows="2" name="book[description]" placeholder="description")
             .modal-footer
               button.btn.btn-success(type="submit") 录入
+        .panel-body      
+          .text-info 查看用户列表
+            span &nbsp;&nbsp;&nbsp;
+            a#addnews.btn.btn-link(target="_blank" href="/root/user/list") 查看
           
   #msgModal.modal.fade
     .modal-dialog(style="width:36%")

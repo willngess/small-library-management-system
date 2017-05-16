@@ -11,7 +11,8 @@ var UserSchema = new mongoose.Schema({
     // 昵称
     nickname:{
         unique: true,
-        type: String
+        type: String,
+        default: ''
     },
     // 密码 哈希加盐处理
     password: String,

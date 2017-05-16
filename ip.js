@@ -55,4 +55,4 @@ function getLocalIP() {
     }  
     return map;
 }
-console.log(getLocalIP());
+getLocalIP()   
