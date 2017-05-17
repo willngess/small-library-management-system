@@ -94,8 +94,8 @@ exports.showBook = function(req, res) {
 
             Comment.find({book: _id})
                 .sort()
-                .populate('from', 'name')
-                .populate('reply.from reply.to', 'name')
+                .populate('from', 'name nickname')
+                .populate('reply.from reply.to', 'name nickname')
                 .exec(function(err, comments) {
 
                     res.render('bookdetail', {

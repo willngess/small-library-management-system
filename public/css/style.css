@@ -79,3 +79,6 @@ textarea {
 	animation: show .5s linear both;
 }
 
+.media-object{
+	border-radius: 50%;
+}

@@ -12,9 +12,9 @@ var Comment = require('../../dbfiles/models/comment')
             var replay = {
                 from: _comment.from,
                 to: _comment.tid,
-                content: _comment.content
+                content: _comment.content.split("：").slice(1).join("")
             }
-            
+
             comment.reply.push(replay)
             comment.save(function(err, comment){
 
