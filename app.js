@@ -8,7 +8,7 @@ var moment = require('moment')
 
 // 数据库引入以及连接
 var mongoose = require('mongoose')
-var dbUrl = 'mongodb://localhost/management'
+var dbUrl = 'mongodb://127.0.0.1/management'
 mongoose.connect(dbUrl)
 var db = mongoose.connection
 db.on('error', function(err){
@@ -61,6 +61,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
-
 
 module.exports = app

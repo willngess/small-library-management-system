@@ -3,13 +3,14 @@
     .navbar-header
       a.navbar-brand(href="/") 图书管理系统
     if user
+      -var rolePath = user.role == 'normal' ? 'user' : user.role
       p#namecontainer.navbar-text.navbar-right
         if user.nickname
           span#hello #{user.nickname}
-            a.updeteme.text-info(target="_blank" href="/user/update/#{user._id}") 修改信息
+            a.updeteme.text-info(target="_blank" href="/#{rolePath}/update/#{user._id}") 修改信息
         else
           span#hello #{user.name}
-            a.updeteme.text-info(target="_blank" href="/user/update/#{user._id}") 修改信息
+            a.updeteme.text-info(target="_blank" href="/#{rolePath}/update/#{user._id}") 修改信息
         span &nbsp;|&nbsp;
         if user.role == 'normal'
           a.nav-link(href="/user/logout") 注销
@@ -18,8 +19,9 @@
     else
       p.navbar-text.navbar-right
         if page != 'signle'
-          a.navbar-link(target="_blank" href="#{_path}/signup") 注册
-          span &nbsp;|&nbsp;
+          if _path != '/admin'
+            a.navbar-link(target="_blank" href="#{_path}/signup") 注册
+            span &nbsp;|&nbsp;
           a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登陆
 
 #signinModal.modal.fade
@@ -36,6 +38,8 @@
           .form-group
             label(for="signinPassword") 密码
             input#signinPassword.form-control(name="user[password]", type="password") 
+          .form-group
+            span#errMsg
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") 关闭
           button.btn.btn-success(type="submit") 确认

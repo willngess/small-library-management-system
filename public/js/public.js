@@ -40,16 +40,45 @@ $(document).ready(function(){
             console.log(result)
             var data = result
             if(data.tag === undefined && data.success === 0){
-                console.log('数据库查询失败')
+                $('#errMsg').removeClass('text-success').addClass('text-danger').text('数据库查询失败！')
             }else if(data.tag === 0 && data.success === 0){
-                console.log('用户不存在')
+                $('#errMsg').removeClass('text-success').addClass('text-danger').text('用户不存在！')
             }else if(data.tag === 1 && data.success === 0){
-                console.log('密码错误')
+                $('#errMsg').removeClass('text-success').addClass('text-danger').text('密码错误！')
             }else if(data.tag === 1 && data.success === 1){
-                console.log('登陆成功')
-                location.reload()
-            }       
+                $('#errMsg').removeClass('text-danger').addClass('text-success').text('登陆成功！')
+                setTimeout(function(){
+                    location.reload()
+                },500)      
+            }
 
         })
     })
 })
+
+
+function showModal(options){
+
+    var idName = options.idName ? "#" + options.idName : '#msgModal'
+    var success = options.success || false
+    var msg = options.msg || '失败'
+    var successCb = options.successCb || function(){}
+    var failCb = options.failCb || function(){}
+
+    if(success) {
+        $(idName).on('show.bs.modal',  function() {
+            $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
+            $('#message').text(msg)
+            $(this).off('show.bs.modal')
+        })
+        $('#msgModal').on('hidden.bs.modal',successCb)
+    }else {
+        $(idName).on('show.bs.modal',  function() {
+            $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
+            $('#message').text(msg)
+            $(this).off('show.bs.modal')
+        })
+        $('#msgModal').on('hidden.bs.modal',failCb)
+    }
+
+}

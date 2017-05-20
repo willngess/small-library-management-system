@@ -17,20 +17,17 @@ $(function(){
             }).done(function(result) {
                 console.log(result)
                 if(result.tag === 0 && result.success === 1) {
-                    $('#msgModal').on('show.bs.modal',  function() {
-                        $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
-                        $('#message').text('录入成功')
-                        $(this).off('show.bs.modal')
+                    showModal({
+                        success: true,
+                        msg: '录入成功!',
+                        successCb: function(){
+                            location.reload()
+                        }
                     })
-                    $('#msgModal').on('hidden.bs.modal',function(){
-                        location.reload()
-                    })
-                    // $('.show').removeClass('show').addClass('hidden')
                 }else if(result.tag === 1 && result.success === 0){
-                    $('#msgModal').on('show.bs.modal',  function() {
-                        $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                        $('#message').text('该名字已存在，请修改后再录入')
-                        $(this).off('show.bs.modal')
+                    showModal({
+                        success: false,
+                        msg: '该名字已存在，请修改后再录入!',
                     })
                 }
                 $('#msgModal').modal({
@@ -55,13 +52,27 @@ $(function(){
                 _id: id
             })
         }).done(function(result){
-
-            if(result.success === 1){
-                tr.children().last().innerHTML = '删除成功'
-                setTimeout(function(){
-                    tr.remove()
-                }, 500)
+            console.log(result)
+            if(result && result.success === 1){
+                showModal({
+                    success: true,
+                    msg: '删除成功!',
+                    successCb: function(){
+                        setTimeout(function(){
+                            tr.remove()
+                        }, 500)
+                    }
+                })
+            }else{
+                showModal({
+                    success: true,
+                    msg: '删除失败!',
+                })
             }
+            
+            $('#msgModal').modal({
+                keyboard: true
+            })
         })
     })
 })

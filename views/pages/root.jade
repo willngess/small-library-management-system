@@ -149,7 +149,7 @@ block content
         .panel-body      
           .text-info 查看用户列表
             span &nbsp;&nbsp;&nbsp;
-            a#addnews.btn.btn-link(target="_blank" href="/root/user/list") 查看
+            a#addNews.btn.btn-link(target="_blank" href="/root/user/list") 查看
   //-消息提示框 
   #msgModal.modal.fade
     .modal-dialog(style="width:36%")
@@ -158,6 +158,7 @@ block content
           .panel-heading 提示
             button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
           #message.panel-body.text-center 
-
+  //- footer
+  include ../includes/footer
   script(type="text/javaScript" src="/public/js/admin/admin.js")
   script(type="text/javaScript" src="/public/js/root/root.js")

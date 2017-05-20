@@ -1,4 +1,5 @@
 var User = require('../../dbfiles/models/user')
+var _ = require('underScore')
 
 // GET Signin Page
 exports.showSignin = function(req, res){
@@ -24,12 +25,9 @@ exports.showSignin = function(req, res){
 
 // POST User Data
 exports.signin = function(req, res) {
-
     var _user = req.body.user 
     var name = _user.name
-
     User.findOne({name: name}, function(err, user){
-
         if(err){
             console.log('err in find: ' + err)
             return res.json({
@@ -44,7 +42,6 @@ exports.signin = function(req, res) {
         }
         if(user){
             var _password = req.body.user.password
-
             user.comparePassword(_password, function(err, isMatch){
                 if(err){
                     return  res.json({
@@ -52,7 +49,6 @@ exports.signin = function(req, res) {
                             })
                 }
                 if(isMatch){
-
                     req.session.user = {
                         name: user.name,
                         nickname: user.nickname,
@@ -164,6 +160,9 @@ exports.signup = function(req, res) {
                 var _adminUser = new User(_user)
                 _adminUser.save(function(err, adminUser) {
                     if(err){
+                        for(i in err) {
+                            console.log(i+':' + err[i])
+                        }
                         res.json({
                             success:0
                         })
@@ -287,4 +286,78 @@ exports.showUserList = function(req, res) {
         })    
         
     })
+}
+
+// show update user page
+exports.showUpdateUser = function(req, res) {
+
+    var url = req.originalUrl
+    var role = url.split('/')[1]
+    if(role == 'user'){
+        role = 'normal'
+    }
+    var _id = req.params.id
+
+    User.findById(_id, function(err, user) {
+        if(err) {
+            return console.log('err in find user: ' + err)
+        }
+        
+        res.render('updateUser', {
+
+            title: '修改信息',
+            role: role,
+            user: user
+        }) 
+    })
+
+
+}
+
+exports.updateUser = function(req, res) {
+
+    var userObj = req.body.user
+    var _id = userObj._id
+    var _user = null
+
+    console.log('userObj: ' + userObj)
+
+    User.findById( _id, function(err, user) {
+
+        if(err) {
+            res.json({
+                success:0
+            })
+
+            return console.log('err in find user: ' + err)
+        }
+
+        console.log('updated user: ' + user)
+
+        if(user) {
+            _user = _.extend(user, userObj)
+            _user.save(function(err, user) {
+                if(err) {
+                    res.json({
+                        success: 0 
+                    })
+                    return console.log('err in save user: ' + err)
+                }
+
+                return res.json({
+                    tag: 1,
+                    success:1
+                })
+            })
+        }else{ 
+            return res.json({
+                tag: 0,
+                success: 0
+            })
+        }
+
+    })
+
+    
+
 }

@@ -22,6 +22,7 @@ $(document).ready(function() {
                 if(item.borrowinfo && item.borrowinfo.type == true) {
                     var borrowStr = '<button class="borrow btn btn-default btn-info btn-sm" data-bookid="' + item._id + '" data-tid="' + userid + '" disabled>借阅</button>'
                 }else {
+                    var borrowStr = '<button class="borrow btn btn-default btn-info btn-sm" data-bookid="' + item._id + '" data-tid="' + userid + '">借阅</button>'
                 }
 
                 booksTbodyStr += '<tr class="item-id-' + item._id +'">'+
@@ -58,36 +59,38 @@ $(document).ready(function() {
         }).done(function(result) {
 
             if(!result.isSignin){
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('无权限,请登陆后在进行操作！')
-                    $(this).off('show.bs.modal')
+                showModal({
+                    success: false,
+                    msg:'无权限,请登陆后在进行操作！',
                 })
-
             }else if(!result.isExist){
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('该书籍已被删除，刷新后看看其他的书籍吧！')
-                    $(this).off('show.bs.modal')
+
+                showModal({
+                    success: false,
+                    msg: '该书籍已被删除，看看其他的书籍吧！',
+                    failCb: function(){
+                        location.reload()
+                    }
                 })
             }else if(result.success === 0) {
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('借阅失败,请刷新后重试！')
-                    $(this).off('show.bs.modal')
-                })
 
+                showModal({
+                    success: false,
+                    msg: '借阅失败,请稍后重试！',
+                    failCb: function(){
+                        location.reload()
+                    }
+                })
             }else if(result.success === 1){
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
-                    $('#message').text('借阅成功')
-                    $(this).off('show.bs.modal')
+
+                showModal({
+                    success: true,
+                    msg: '借阅成功',
+                    successCb: function(){
+                        location.reload()
+                    }
                 })
             }
-
-            $('#msgModal').on('hidden.bs.modal',function(){
-                location.reload()
-            })
 
             $('#msgModal').modal({
                 keyboard: true

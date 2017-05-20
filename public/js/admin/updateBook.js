@@ -13,16 +13,17 @@ $(document).ready(function(){
             data: $(this).serialize()
         }).done(function(result) {
             if(result && result.success === 1) {
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
-                    $('#message').text('更新成功')
-                    $(this).off('show.bs.modal')
+                showModal({
+                    success:true,
+                    msg: '更新成功！'
                 })
-            }else if(result && result.success === 0){
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('更新失败，请重新输入')
-                    $(this).off('show.bs.modal')
+            }else{
+                showModal({
+                    success: false,
+                    msg: '更新失败，请稍后重试',
+                    failCb: function(){
+                        location.reload()
+                    }
                 })
             }
             $('#msgModal').modal({

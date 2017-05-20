@@ -11,8 +11,7 @@ var UserSchema = new mongoose.Schema({
     // 昵称
     nickname:{
         unique: true,
-        type: String,
-        default: ''
+        type: String
     },
     // 密码 哈希加盐处理
     password: String,
@@ -43,6 +42,10 @@ UserSchema.pre('save', function(next) {
         this.meta.createAt = this.meta.createAt = Date.now()
     }else{
         this.meta.updateAt = Date.now()
+    }
+
+    if(!this.nickname || this.nickname === '') {
+        this.nickname = this.name
     }
 
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){

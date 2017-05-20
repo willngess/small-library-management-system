@@ -7,29 +7,39 @@ block content
         form#signupForm.form-horizontal(data-role='#{role}' style="margin-top:50px;")
           .panel-header #{type}
           .panel-body
-            input(type='hidden', name="user[role]", value="#{role}" )
+            input(type='hidden', name="user[role]" value="#{role}" )
             .form-group
               label.col-md-2.control-label(for="signinName") 用户名
               .col-md-10
-                input#signinName.form-control(name="user[name]", type="text", placeholder="Your username") 
+                input#signinName.form-control(name="user[name]" type="text", placeholder="Your username") 
             .form-group
               label.col-md-2.control-label(for="signinPassword") 密码
               .col-md-10
-                input#signinPassword.form-control(name="user[password]", type="text", placeholder="password")
+                input#signinPassword.form-control(name="user[password]" type="text" placeholder="password")
             if  role != 'admin'    
               .form-group
                 label.col-md-2.control-label(for="signinNickname") 昵称
                 .col-md-10
-                  input#signinNickname.form-control(name="user[nickname]", type="text", placeholder="Nickname")
+                  input#signinNickname.form-control(name="user[nickname]" type="text" placeholder="Nickname")
             .form-group
               label.col-md-2.control-label(for="signinRealname") 姓名
               .col-md-10
-                input#signinRealname.form-control(name="user[realname]", type="text", placeholder="Your name")
+                input#signinRealname.form-control(name="user[realname]" type="text" placeholder="Your name")
             .form-group
               label.col-md-2.control-label(for="signinPhone") Phone
               .col-md-10
-                input#signinPhone.form-control(name="user[phone]", type="number", placeholder="Phonenumber")
+                input#signinPhone.form-control(name="user[phone]" type="number" placeholder="Phonenumber")
           .modal-footer
             button.btn.btn-success(type="submit") 确认
 
+  //-消息提示框 
+  #msgModal.modal.fade
+    .modal-dialog(style="width:36%")
+      .modal-content 
+        #modal-panel.panel.panel-success 
+          .panel-heading 提示
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+          #message.panel-body.text-center 
+  //- footer
+  include ../includes/footer
   script(type="text/javaScript" src="/public/js/signup.js")

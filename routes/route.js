@@ -1,5 +1,4 @@
 var express = require('express');
-var router = express.Router();
 var User = require('./routecontroller/user')
 var Index = require('./routecontroller/index')
 var Admin = require('./routecontroller/admin')
@@ -53,6 +52,9 @@ module.exports = function(app) {
     app.post('/user/signup', User.signup)
     app.post('/user/signin', User.signin)
     app.get('/user/logout', User.logout)
+
+    app.get('/user/update/:id', Index.signinRequired, User.showUpdateUser)
+    app.post('/user/update', Index.signinRequired, User.updateUser)
     
     app.get('/news/list', Index.newsList)
     
@@ -87,6 +89,9 @@ module.exports = function(app) {
     app.get('/root/user/list', Root.signinRequired, User.del)
 
 
+    app.get('/root/update/:id', Root.signinRequired, User.showUpdateUser)
+    app.post('/root/update', Root.signinRequired, User.updateUser)
+
     // GET Admin Pages
     app.get('/admin', Admin.signinRequired, Admin.index)
     app.post('/admin/signin', User.signin)
@@ -96,5 +101,8 @@ module.exports = function(app) {
     app.post('/admin/book/save', User.adminSigninRequired, Admin.saveBook)
     app.get('/admin/book/update/:id', User.adminSigninRequired, Admin.showUpdateBook)
     app.post('/admin/book/update', User.adminSigninRequired, Admin.updateBook)
+
+    app.get('/admin/update/:id', Admin.signinRequired, User.showUpdateUser)
+    app.post('/admin/update', Admin.signinRequired, User.updateUser)
 
 }

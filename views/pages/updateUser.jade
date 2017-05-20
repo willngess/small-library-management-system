@@ -1,0 +1,47 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      .col-md-10.col-md-offset-1
+        .panel.panel-default(style="margin-top: 20px;")
+          .panel-heading 
+            .panel-title 个人信息
+          .panel-body  
+            form#updateUserForm.form-horizontal(data-role='#{role}')
+              input(type="hidden" name="user[_id]" value="#{user._id}") 
+              .form-group
+                label.col-md-2.control-label(for="username") 用户名
+                .col-md-10
+                  input#username.form-control(name="user[name]" type="text" value="#{user.name}" disabled) 
+              .form-group
+                label.col-md-2.control-label(for="userPassword") 密码
+                .col-md-10
+                  input#userPassword.form-control(name="user[password]" type="text" )
+              if  role == 'normal'   
+                .form-group
+                  label.col-md-2.control-label(for="userNickname") 昵称
+                  .col-md-10
+                    input#userNickname.form-control(name="user[nickname]" type="text" value="#{user.nickname}" ) 
+              .form-group
+                label.col-md-2.control-label(for="userRealname") 姓名
+                .col-md-10
+                  input#userRealname.form-control(name="user[realname]" type="text" value="#{user.realname}" disabled)
+              .form-group
+                label.col-md-2.control-label(for="userPhone") Phone
+                .col-md-10
+                  input#userPhone.form-control(name="user[phone]" type="number" value="#{user.phone}" )
+
+              .null(style="text-align:right;")
+                button.btn.btn-success(type="submit") 更新    
+
+  #msgModal.modal.fade
+    .modal-dialog(style="width:25%")
+      .modal-content 
+        #modal-panel.panel.panel-success 
+          .panel-heading 提示
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+          #message.panel-body.text-center 
+  //- footer
+  include ../includes/footer        
+  script(type="text/javaScript" src="/public/js/updateUser.js")

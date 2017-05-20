@@ -10,3 +10,5 @@ block content
               li.list-group-item #{item.title}
                 a.pull-right(target="_blank", href="/news/view/#{item._id}") 查看
                 span.pull-right #{moment(item.meta.createAt).format('MM/DD/YYYY, h:mm:ss a')}&nbsp;&nbsp;&nbsp;&nbsp;
+  //- footer
+  include ../includes/footer

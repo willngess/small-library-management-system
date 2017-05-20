@@ -21,11 +21,28 @@ $(function(){
                     url: '/root/admin/del?id=' + id
                 }).done(function(result){
                     if(result.success === 1){
-                        tr.children()[3].innerHTML = '删除成功'
-                        setTimeout(function(){
-                            tr.remove()
-                        }, 500)
+                        showModal({
+                            success: true,
+                            msg: '删除成功!',
+                            successCb: function(){
+                                setTimeout(function(){
+                                    tr.remove()
+                                }, 500)
+                            }
+                        })
+                    }else {
+                        showModal({
+                            success: false,
+                            msg: '删除失败，请稍后再试！',
+                            failCb: function(){
+                                location.reload()
+                            }
+                        })
                     }
+
+                    $('#msgModal').modal({
+                        keyboard: true
+                    })
                 })
             }
 
@@ -52,19 +69,18 @@ $(function(){
             }).done(function(result) {
                 console.log(result)
                 if(result.tag === 0 && result.success === 1) {
-                    $('#msgModal').on('show.bs.modal',  function() {
-                        $('#modal-panel').removeClass('panel-danger').addClass('panel-success')
-                        $('#message').text('发布成功')
-                        $(this).off('show.bs.modal')
-                    })
-                    $('#msgModal').on('hidden.bs.modal',function(){
-                        location.reload()
+
+                    showModal({
+                        success: true,
+                        msg: '发布成功！',
+                        successCb: function(){
+                            location.reload()
+                        }
                     })
                 }else if(result.tag === 1 && result.success === 0){
-                    $('#msgModal').on('show.bs.modal',  function() {
-                        $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                        $('#message').text('该标题已存在，请修改后再录入')
-                        $(this).off('show.bs.modal')
+                    showModal({
+                        success: false,
+                        msg: '该标题已存在，请修改后再录入',
                     })
                 }
                 $('#msgModal').modal({
@@ -91,20 +107,22 @@ $(function(){
         }).done(function(result){
 
             if(result.success === 1){
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('删除成功！')
-                    $(this).off('show.bs.modal')
-                })
-                $('#msgModal').on('hidden.bs.modal',function(){
-                    tr.remove()
-                    $(this).off('hidden.bs.modal')
+                showModal({
+                    success: true,
+                    msg: '删除成功！',
+                    successCb: function(){
+                        setTimeout(function(){
+                            tr.remove()
+                        },500)
+                    }
                 })
             }else {
-                $('#msgModal').on('show.bs.modal',  function() {
-                    $('#modal-panel').removeClass('panel-success').addClass('panel-danger')
-                    $('#message').text('删除失败， 请刷新后重试！')
-                    $(this).off('show.bs.modal')
+                showModal({
+                    success: false,
+                    msg: '删除失败，请稍后后重试！',
+                    successCb: function(){
+                       location.reload()
+                    }
                 })
             }
             $('#msgModal').modal({

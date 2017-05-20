@@ -34,7 +34,7 @@ block content
                         td: a(target="_blank", href="/book/view/#{item._id}") 查看
                         td: a(target="_blank", href="/admin/book/update/#{item._id}") 更新
                         td
-                          button.btn.btn-danger.del(type="button", data-id="#{item._id}") 删除
+                          button.btn.btn-danger.delBook(type="button", data-id="#{item._id}") 删除
                 .text-info 添加新的书籍
                   span &nbsp;&nbsp;&nbsp;
                   btn#addbook.btn.btn-link 添加
@@ -79,5 +79,6 @@ block content
           .panel-heading 提示
             button.close#closeBookForm(type="button" data-dismiss="modal" aria-hidden="true") &times;
           #message.panel-body.text-center 
-
+  //- footer
+  include ../includes/footer
   script(type="text/javaScript" src="/public/js/admin/admin.js")
